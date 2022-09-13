@@ -1,0 +1,61 @@
+{% load static %}
+ <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="http://www.witz.ai/" class="logo d-flex align-items-center">
+        <img src="{% static 'assets/img/logo.png' %}" alt=""> <!-- logo color #79b7c6 rgb 121,183,198-->
+        <span></span>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#notice">Home</a></li>
+          <li><a class="nav-link scrollto" href="#notice">Notice</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#services">Services</a></li>
+          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+<!--                    <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (Logout)</a>
+-->                    <a class="getstarted scrollto" href="{% url 'common:logout' %}">Logout</a>
+                    {% else %}
+                    <a class="getstarted scrollto" href="{% url 'common:login' %}">Login</a>
+                    {% endif %}
+                </li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+
+<!-- 네비게이션바
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'bbs:index' %}">BBS</a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+-->

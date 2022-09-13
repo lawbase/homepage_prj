@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load bbs_filter %}
+{% block content %}
+
+<section id="notice" class="hero">
+    <div class="container" data-aos="fade-up">
+
+        <header class="section-header">
+            <h2>&nbsp;</h2>
+          <h2>NOTICE</h2>
+          <p> 공 지 사 항 </p>
+        </header>
+
+    <table class="table table-hover">
+        <thead class="text-center" >
+        <tr>
+            <th>번호</th>
+            <th style="width:50%">제목</th>
+            <th>글쓴이</th>
+            <th>작성일자</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if notice_list %}
+        {% for notice in notice_list %}
+        <tr>
+            <td class="text-center">
+                <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
+                {{ notice_list.paginator.count|sub:notice_list.start_index|sub:forloop.counter0|add:1 }}
+            </td>
+            <!--<td class="text-start">-->
+            <td>
+                <a href="{% url 'bbs:detail' notice.id %}"><font color="#2a2070">{{ notice.subject }}</font></a>
+                {% if notice.answer_set.count > 0 %}
+                <span class="text-danger small mx-2">{{ notice.answer_set.count }}</span>
+                {% endif %}
+            </td>
+            <td class="text-center">{{ notice.author.username }}</td>  <!-- 글쓴이 추가 -->
+            <td class="text-center">{{ notice.create_date|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="4">[공지사항] 이 없습니다.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+        <!-- 이전페이지 -->
+        {% if notice_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ notice_list.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+
+        <!-- 페이지리스트 -->
+        {% for page_number in notice_list.paginator.page_range %}
+        <!-- 현재페이지의 좌우 2페이지만 보이기 -->
+        {% if page_number >= notice_list.number|add:-2 and page_number <= notice_list.number|add:2 %}
+        {% if page_number == notice_list.number %}
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if notice_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ notice_list.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+
+    <a href="{% url 'bbs:notice_create' %}" class="btn btn-outline-secondary" > 등록하기</a>
+</div>
+</section>
+{% include "hero.html" %}
+
+{% include "main.html" %}
+{% endblock %}
